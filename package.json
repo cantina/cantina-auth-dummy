@@ -1,0 +1,26 @@
+{
+  "name": "auth-freedomworks",
+  "description": "",
+  "version": "0.0.1",
+  "private": true,
+  "homepage": "cantina.guthub.com",
+  "repository": {
+    "url": ""
+  },
+  "main": "./lib",
+  "scripts": {
+    "test": "make test"
+  },
+  "dependencies": {
+    "pkginfo": "~0.2.3",
+    "passport-freedomworks": "git+https://github.com/carlos8f/passport-freedomworks.git"
+  },
+  "devDependencies": {
+    "cantina": "git+ssh://git@github.com:cantina/cantina.git#b036b267fd6d54f96d107e9ec1b508a6ddd13c5f",
+    "cantina-auth": "git+ssh://git@github.com:cantina/cantina-auth.git#b57523d758e3e4e3067661cb0ba9b070ec29e185"
+  },
+  "optionalDependencies": {},
+  "engines": {
+    "node": "~0.6.0"
+  }
+}
