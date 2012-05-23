@@ -1,6 +1,6 @@
 {
   "name": "auth-freedomworks",
-  "description": "",
+  "description": "Freedomworks authentication strategy for Cantina",
   "version": "0.0.1",
   "private": true,
   "homepage": "cantina.guthub.com",
