@@ -16,8 +16,8 @@
     "passport-freedomworks": "git+https://github.com/carlos8f/passport-freedomworks.git"
   },
   "devDependencies": {
-    "cantina": "git+ssh://git@github.com:cantina/cantina.git#b036b267fd6d54f96d107e9ec1b508a6ddd13c5f",
-    "cantina-auth": "git+ssh://git@github.com:cantina/cantina-auth.git#b57523d758e3e4e3067661cb0ba9b070ec29e185"
+    "cantina": "git+ssh://git@github.com:cantina/cantina.git#a99cf829af80ad0c29f0d88991dde3bfa6fd2ebf",
+    "cantina-auth": "git+ssh://git@github.com:cantina/cantina-auth.git#3465aafbfdfd4ff704373084a9e85f1aa91ecc3c"
   },
   "optionalDependencies": {},
   "engines": {
