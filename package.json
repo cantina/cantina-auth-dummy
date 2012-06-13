@@ -12,12 +12,14 @@
     "test": "make test"
   },
   "dependencies": {
-    "pkginfo": "~0.2.3",
+    "cantina-utils": "git+ssh://git@github.com:cantina/cantina-utils.git",
     "passport-freedomworks": "git+https://github.com/carlos8f/passport-freedomworks.git"
   },
   "devDependencies": {
-    "cantina": "git+ssh://git@github.com:cantina/cantina.git#a99cf829af80ad0c29f0d88991dde3bfa6fd2ebf",
-    "cantina-auth": "git+ssh://git@github.com:cantina/cantina-auth.git#3465aafbfdfd4ff704373084a9e85f1aa91ecc3c"
+    "mocha": "~1.1.0",
+    "zombie": "~1.3.0",
+    "cantina": "git+ssh://git@github.com:cantina/cantina.git",
+    "cantina-auth": "git+ssh://git@github.com:cantina/cantina-auth.git"
   },
   "optionalDependencies": {},
   "engines": {

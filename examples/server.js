@@ -1,7 +1,11 @@
-var cantina = require('cantina')
-  , auth = require('cantina-auth')
-  , app = cantina.createApp({amino: false})
-  ;
+var cantina = require('cantina'),
+    auth = require('cantina-auth'),
+    plugin = require('../').plugin;
+
+var app = cantina.createApp({
+  amino: false,
+  port: 3000
+});
 
 app.use(auth.plugin, {
   serializeUser: function(user, done) {
@@ -12,7 +16,7 @@ app.use(auth.plugin, {
   }
 });
 
-app.use(require('../').plugin, {
+app.use(plugin, {
   consumerKey: '884d36536702bfca872feb5b4e43ff3a',
   consumerSecret: 'd416fae3609ecdd578548071253273c0',
   callbackURL: 'http://localhost:3000/auth/freedomworks/callback',
@@ -32,5 +36,4 @@ app.router.get('/', function() {
   }
 });
 
-app.start(3000);
-console.log('Test app started on port ' + 3000);
+app.start();
