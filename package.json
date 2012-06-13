@@ -1,5 +1,5 @@
 {
-  "name": "auth-freedomworks",
+  "name": "cantina-auth-freedomworks",
   "description": "Freedomworks authentication strategy for Cantina",
   "version": "0.0.1",
   "private": true,
