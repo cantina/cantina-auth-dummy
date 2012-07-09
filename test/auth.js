@@ -23,24 +23,21 @@ describe('Authentication', function() {
       }
     });
 
-    app.use(plugin, {
-      consumerKey: '884d36536702bfca872feb5b4e43ff3a',
-      consumerSecret: 'd416fae3609ecdd578548071253273c0',
-      callbackURL: 'http://localhost:3000/auth/freedomworks/callback',
-      authURL: '/login',
-      verify: function(token, tokenSecret, profile, done) {
-        done(null, profile);
-      }
-    });
+    app.use(plugin, {authURL: '/login'});
 
     app.router.get('/', function() {
       this.res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
       if (this.req.isAuthenticated()) {
-        this.res.end('<body>Welcome, <a href="http://connect.freedomworks.org/user/' + this.req.user.id + '">' + this.req.user.displayName + '</a>!</body>');
+        this.res.end('<body>Welcome, ' + this.req.user.displayName + '!</body>');
       }
       else {
-        this.res.end('<body><a href="/login">click here to login via FreedomWorks</a></body>');
+        this.res.end('<body><a href="/login">click here to login</a></body>');
       }
+    });
+
+    app.router.get('/logout', function() {
+      this.req.logout();
+      this.res.redirect('/');
     });
 
     app.start(function() {
@@ -49,23 +46,31 @@ describe('Authentication', function() {
         runScripts: false,
         site: 'http://localhost:9090'
       });
+      browser.on('error', function(error) {
+        console.error(error);
+      });
       done();
     });
   });
 
-  it('should authenticate against the freedomworks server', function(done) {
-    browser.visit('/', function(err, browser, status) {
-      assert.ifError(err, 'Error visiting "/"');
-      assert.equal(status, 200, 'Non-200 response');
-      browser.clickLink('a', function(err, browser, status) {
-        // TODO: There is an error seemingly related to google plusone.
-        // In order to programatically test we may need to create a more
-        // simplified, machine-friendly, login page or something.
-        assert.ifError(err);
-        assert.equal(status, 200, 'Non-200 response');
-        done();
-      });
-    });
+  it('should authenticate', function(done) {
+    browser.visit('/')
+      .then(function() {
+        assert.ok(browser.html().search(/click here to login/));
+      })
+      .then(function() {
+        return browser.clickLink('a');
+      })
+      .then(function() {
+        assert.ok(browser.html().search(/Welcome, [A-Z][a-z]+ [A-Z][a-z]+!/));
+      })
+      .then(function() {
+        return browser.clickLink('a');
+      })
+      .then(function() {
+        assert.ok(browser.html().search(/click here to login/));
+      })
+      .finally(done);
   });
 
 });

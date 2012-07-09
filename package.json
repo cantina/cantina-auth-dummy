@@ -1,6 +1,6 @@
 {
-  "name": "cantina-auth-freedomworks",
-  "description": "Freedomworks authentication strategy for Cantina",
+  "name": "cantina-auth-dummy",
+  "description": "Dummy authentication strategy for Cantina",
   "version": "0.0.1",
   "private": true,
   "homepage": "cantina.guthub.com",
@@ -13,16 +13,19 @@
   },
   "dependencies": {
     "cantina-utils": "git+ssh://git@github.com:cantina/cantina-utils.git",
-    "passport-freedomworks": "git+https://github.com/carlos8f/passport-freedomworks.git"
+    "passport-dummy": "0.0.1",
+    "idgen": "1.x",
+    "namegen": "0.x"
   },
   "devDependencies": {
     "mocha": "~1.1.0",
     "zombie": "~1.3.0",
     "cantina": "git+ssh://git@github.com:cantina/cantina.git",
-    "cantina-auth": "git+ssh://git@github.com:cantina/cantina-auth.git"
+    "cantina-auth": "git+ssh://git@github.com:cantina/cantina-auth.git",
+    "union": "~0.3.3"
   },
   "optionalDependencies": {},
   "engines": {
-    "node": "~0.6.0"
+    "node": ">=0.6.0"
   }
 }
