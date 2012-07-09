@@ -23,11 +23,15 @@ describe('Authentication', function() {
       }
     });
 
-    app.use(plugin, {authURL: '/login'});
+    app.use(plugin, {authURL: '/login', verify: function(profile, done) {
+      profile.uid = 'test';
+      done(null, profile);
+    }});
 
     app.router.get('/', function() {
       this.res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
       if (this.req.isAuthenticated()) {
+        assert.equal(this.req.user.uid, 'test');
         this.res.end('<body>Welcome, ' + this.req.user.displayName + '!</body>');
       }
       else {
@@ -45,9 +49,6 @@ describe('Authentication', function() {
         debug: false,
         runScripts: false,
         site: 'http://localhost:9090'
-      });
-      browser.on('error', function(error) {
-        console.error(error);
       });
       done();
     });
