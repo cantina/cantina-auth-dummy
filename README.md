@@ -1,4 +1,4 @@
-FreedomWorks authentication provider
-================
+cantina-auth-dummy
+==================
 
-
+Dummy authentication strategy for Cantina
