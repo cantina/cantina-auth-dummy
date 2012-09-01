@@ -1,57 +1,70 @@
 var assert = require('assert'),
     Zombie = require('zombie'),
-    cantina = require('cantina'),
-    auth = require('cantina-auth'),
-    plugin = require('../').plugin;
+    cantina = require('cantina');
 
 describe('Authentication', function() {
-  var app, browser;
+  var app, browser, port = 9090;
 
   before(function(done) {
-    app = cantina.createApp({
-      amino: false,
-      port: 9090,
-      silent: true
-    });
-
-    app.use(auth.plugin, {
-      serializeUser: function(user, done) {
-        done(null, user);
-      },
-      deserializeUser: function(obj, done) {
-        done(null, obj);
+    var authHelpers = {
+      name: "authHelpers",
+      version: "0.0.1",
+      init: function(app, done) {
+        app.serializeUser = function(user, cb) {
+          cb(null, user);
+        };
+        app.deserializeUser = function(obj, cb) {
+          cb(null, obj);
+        };
+        app.verifyDummy = function(profile, db) {
+          profile.uid = 'test';
+          cb(null, profile);
+        };
+        done();
       }
-    });
+    };
 
-    app.use(plugin, {authURL: '/login', verify: function(profile, done) {
-      profile.uid = 'test';
-      done(null, profile);
-    }});
+    var plugins = [
+      'http',
+      'middleware',
+      'cantina-redis',
+      'cantina-session',
+      authHelpers,
+      'cantina-auth',
+      '../'
+    ];
 
-    app.router.get('/', function() {
-      this.res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-      if (this.req.isAuthenticated()) {
-        assert.equal(this.req.user.uid, 'test');
-        this.res.end('<body>Welcome, ' + this.req.user.displayName + '!</body>');
-      }
-      else {
-        this.res.end('<body><a href="/login">click here to login</a></body>');
-      }
-    });
+    var conf = {
+      http: {port: port, silent: true}
+    };
 
-    app.router.get('/logout', function() {
-      this.req.logout();
-      this.res.redirect('/');
-    });
+    // Create app.
+    app = cantina.createApp(plugins, conf, function(err, app) {
+      // Add index route.
+      app.middleware.get('/', function(req, res) {
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        if (req.isAuthenticated()) {
+          assert.equal(req.user.uid, 'test');
+          res.end('<body>Welcome, ' + req.user.displayName + '!</body>');
+        }
+        else {
+          res.end('<body><a href="/login">click here to login</a></body>');
+        }
+      });
 
-    app.start(function() {
+      // Create zombie browser.
       browser = new Zombie({
         debug: false,
         runScripts: false,
         site: 'http://localhost:9090'
       });
+
       done();
     });
+  });
+
+  after(function(done) {
+    app.http.close(done);
   });
 
   it('should authenticate', function(done) {

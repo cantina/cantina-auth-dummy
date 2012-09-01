@@ -12,7 +12,6 @@
     "test": "make test"
   },
   "dependencies": {
-    "cantina-utils": "git+ssh://git@github.com:cantina/cantina-utils.git",
     "passport-dummy": "0.0.1",
     "idgen": "1.x",
     "namegen": "0.x"
@@ -20,9 +19,10 @@
   "devDependencies": {
     "mocha": "~1.1.0",
     "zombie": "~1.3.0",
-    "cantina": "git+ssh://git@github.com:cantina/cantina.git",
-    "cantina-auth": "git+ssh://git@github.com:cantina/cantina-auth.git",
-    "union": "~0.3.3"
+    "cantina": "git+ssh://git@github.com:cantina/cantina.git#1.x",
+    "cantina-redis": "git+ssh://git@github.com:cantina/cantina-redis.git#1.x",
+    "cantina-session": "git+ssh://git@github.com:cantina/cantina-session.git#1.x",
+    "cantina-auth": "git+ssh://git@github.com:cantina/cantina-auth.git#1.x"
   },
   "optionalDependencies": {},
   "engines": {
