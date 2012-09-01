@@ -8,7 +8,6 @@ describe('Authentication', function() {
   before(function(done) {
     var authHelpers = {
       name: "authHelpers",
-      version: "0.0.1",
       init: function(app, done) {
         app.serializeUser = function(user, cb) {
           cb(null, user);
@@ -16,7 +15,7 @@ describe('Authentication', function() {
         app.deserializeUser = function(obj, cb) {
           cb(null, obj);
         };
-        app.verifyDummy = function(profile, db) {
+        app.verifyDummy = function(profile, cb) {
           profile.uid = 'test';
           cb(null, profile);
         };
@@ -56,15 +55,11 @@ describe('Authentication', function() {
       browser = new Zombie({
         debug: false,
         runScripts: false,
-        site: 'http://localhost:9090'
+        site: 'http://localhost:' + port
       });
 
       done();
     });
-  });
-
-  after(function(done) {
-    app.http.close(done);
   });
 
   it('should authenticate', function(done) {
