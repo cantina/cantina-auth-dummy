@@ -39,7 +39,7 @@ module.exports = {
       }
     }));
 
-    if (app.authURL) {
+    if (conf.authURL) {
       app.middleware.add(conf.authURL, app.passport.authenticate('dummy'));
       app.middleware.add(conf.authURL, function(req, res) {
         res.redirect('/');
