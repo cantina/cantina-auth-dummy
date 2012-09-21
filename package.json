@@ -1,13 +1,14 @@
 {
   "name": "cantina-auth-dummy",
   "description": "Dummy authentication strategy for Cantina",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "homepage": "cantina.guthub.com",
+  "homepage": "cantina.github.com",
   "repository": {
-    "url": ""
+    "type": "git",
+    "url": "git://github.com/cantina/cantina-auth-dummy.git"
   },
-  "main": "./lib",
+  "main": "index.js",
   "scripts": {
     "test": "make test"
   },
@@ -19,10 +20,10 @@
   "devDependencies": {
     "mocha": "~1.1.0",
     "zombie": "~1.3.0",
-    "cantina": "git+ssh://git@github.com:cantina/cantina.git#1.x",
-    "cantina-redis": "git+ssh://git@github.com:cantina/cantina-redis.git#1.x",
-    "cantina-session": "git+ssh://git@github.com:cantina/cantina-session.git#1.x",
-    "cantina-auth": "git+ssh://git@github.com:cantina/cantina-auth.git#1.x"
+    "cantina": "git+ssh://git@github.com:cantina/cantina.git#2.x",
+    "cantina-redis": "git+ssh://git@github.com:cantina/cantina-redis.git#2.x",
+    "cantina-session": "git+ssh://git@github.com:cantina/cantina-session.git#2.x",
+    "cantina-auth": "git+ssh://git@github.com:cantina/cantina-auth.git#2.x"
   },
   "optionalDependencies": {},
   "engines": {

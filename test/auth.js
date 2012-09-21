@@ -1,64 +1,57 @@
-var assert = require('assert'),
-    Zombie = require('zombie'),
-    cantina = require('cantina');
+var app = require('cantina'),
+    assert = require('assert'),
+    Zombie = require('zombie');
 
 describe('Authentication', function() {
-  var app, browser, port = 9090;
+  var browser, port = 9090;
 
   before(function(done) {
-    var authHelpers = {
-      name: "authHelpers",
-      init: function(app, done) {
-        app.serializeUser = function(user, cb) {
-          cb(null, user);
-        };
-        app.deserializeUser = function(obj, cb) {
-          cb(null, obj);
-        };
-        app.verifyDummy = function(profile, cb) {
-          profile.uid = 'test';
-          cb(null, profile);
-        };
+    app.load(function(err) {
+      if (err) return done(err);
+
+      require(app.plugins.http);
+      require(app.plugins.middleware);
+      require('cantina-redis');
+      require('cantina-session');
+      require('cantina-auth');
+      require('../');
+
+      app.conf.set('http:port', port);
+      app.conf.set('http:silent', true);
+
+      app.on('auth:serialize', function(user) {
+        return user;
+      });
+      app.on('auth:deserialize', function(id) {
+        return id;
+      });
+      app.on('auth-dummy:verify', function(profile) {
+        profile.uid = 'test';
+        return profile;
+      });
+
+      app.init(function(err) {
+        // Add index route.
+        app.middleware.get('/', function(req, res) {
+          res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+          if (req.isAuthenticated()) {
+            assert.equal(req.user.uid, 'test');
+            res.end('<body>Welcome, ' + req.user.displayName + '!</body>');
+          }
+          else {
+            res.end('<body><a href="/login">click here to login</a></body>');
+          }
+        });
+
+        // Create zombie browser.
+        browser = new Zombie({
+          debug: false,
+          runScripts: false,
+          site: 'http://localhost:' + port
+        });
+
         done();
-      }
-    };
-
-    var plugins = [
-      'http',
-      'middleware',
-      'cantina-redis',
-      'cantina-session',
-      authHelpers,
-      'cantina-auth',
-      '../'
-    ];
-
-    var conf = {
-      http: {port: port, silent: true}
-    };
-
-    // Create app.
-    app = cantina.createApp(plugins, conf, function(err, app) {
-      // Add index route.
-      app.middleware.get('/', function(req, res) {
-        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-        if (req.isAuthenticated()) {
-          assert.equal(req.user.uid, 'test');
-          res.end('<body>Welcome, ' + req.user.displayName + '!</body>');
-        }
-        else {
-          res.end('<body><a href="/login">click here to login</a></body>');
-        }
       });
-
-      // Create zombie browser.
-      browser = new Zombie({
-        debug: false,
-        runScripts: false,
-        site: 'http://localhost:' + port
-      });
-
-      done();
     });
   });
 
