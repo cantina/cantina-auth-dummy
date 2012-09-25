@@ -44,8 +44,8 @@ app.on('init', function() {
 
 app.on('ready', function() {
   // Provide default verfify callback.
-  if (!app.listeners('auth-dummy:verfiy').length) {
-    app.on('auth-dummy:verfiy', function(profile) {
+  if (!app.listeners('auth-dummy:verify').length) {
+    app.on('auth-dummy:verify', function(profile) {
       return profile;
     });
   }
